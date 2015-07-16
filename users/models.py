@@ -1,5 +1,6 @@
 from django.db import models
 
+from numpy import eye, ones, vstack
 from cvxopt import matrix
 
 
@@ -46,6 +47,13 @@ class Investor(models.Model):
         b = matrix(b)
         return b
 
+    def generate_A(self):
+        m = len(self.banks.all())
+        B = vstack((ones((1, m)), eye(m)))
+        C = -1*B
+        A = vstack((B, C))
+        A = matrix(A)
+        return A
 
 
 
