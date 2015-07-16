@@ -1,7 +1,7 @@
 from django.db import models
 
 from numpy import eye, ones, vstack
-from cvxopt import matrix
+from cvxopt import matrix, solvers
 
 
 class Bank(models.Model):
@@ -32,28 +32,31 @@ class Investor(models.Model):
 
         c = []
         for bank in self.banks.all():
-            c.append(float(1+bank.interest_rate))
+            c.append(float(-1-bank.interest_rate))
         c = matrix(c)
         return c
+
+    def generate_A(self):
+        m = len(self.banks.all())
+        B = vstack((ones((1, m)), eye(m)))
+        A = vstack((B, -1*eye(m)))
+        A = matrix(A)
+        return A
 
     def generate_b(self):
 
         b = [float(self.money)]
         for bank in self.banks.all():
-            b.append(float(bank.lower_limit))
-        b.append(float(0))
+            b.append(float(bank.upper_limit))
         for bank in self.banks.all():
-            b.append(float(-bank.upper_limit))
+            b.append(float(-bank.lower_limit))
         b = matrix(b)
         return b
 
-    def generate_A(self):
-        m = len(self.banks.all())
-        B = vstack((ones((1, m)), eye(m)))
-        C = -1*B
-        A = vstack((B, C))
-        A = matrix(A)
-        return A
+    def solutions(self):
+
+        sol = solvers.lp(self.generate_c(), self.generate_A(), self.generate_b())
+        return sol
 
 
 
