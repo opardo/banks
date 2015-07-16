@@ -30,11 +30,24 @@ class Investor(models.Model):
     def generate_c(self):
 
         c = []
-
         for bank in self.banks.all():
             c.append(float(1+bank.interest_rate))
-
-        c = matrix (c)
-
+        c = matrix(c)
         return c
+
+    def generate_b(self):
+
+        b = [float(self.money)]
+        for bank in self.banks.all():
+            b.append(float(bank.lower_limit))
+        b.append(float(0))
+        for bank in self.banks.all():
+            b.append(float(-bank.upper_limit))
+        b = matrix(b)
+        return b
+
+
+
+
+
 
