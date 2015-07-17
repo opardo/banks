@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.webdesign',
     'users',
 )
 
@@ -66,6 +67,9 @@ DATABASES = {
         'HOST': '127.0.0.1',
     }
 }
+
+#Templates
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

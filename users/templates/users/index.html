@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block site_title %}
+Inicio | Proyecto Bancos
+{% endblock site_title %}
+
+{% block title %}
+Inicio | Proyecto Bancos
+{% endblock title %}
+
+{% block body-id %}{% endblock %}
+
+{% block content %}
+
+    {% load webdesign %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Información de Bancos</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="text-center">
+                            Banco
+                        </h4>
+                    </div>
+                    <ul class="list-group list-group-flush text-center">
+                        {% for bank in banks_list %}
+                            <li class="list-group-item">
+                                {{bank.name}}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="text-center">
+                            Tasa de Interés
+                        </h4>
+                    </div>
+                    <ul class="list-group list-group-flush text-center">
+                        {% for bank in banks_list %}
+                            <li class="list-group-item">
+                                {{bank.interest_rate}}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="text-center">
+                            Mínima Inversión
+                        </h4>
+                    </div>
+                    <ul class="list-group list-group-flush text-center">
+                        {% for bank in banks_list %}
+                            <li class="list-group-item">
+                                ${{bank.lower_limit}}.00
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="text-center">
+                            Máxima Inversión
+                        </h4>
+                    </div>
+                    <ul class="list-group list-group-flush text-center">
+                        {% for bank in banks_list %}
+                            <li class="list-group-item">
+                                ${{bank.upper_limit}}.00
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Sugerencia de Inversión</h1>
+            </div>
+        </div>
+        <div class="row">
+            {% for user in examples %}
+                <div class="col-md-3">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4 class="text-center">
+                                {{ user.name }}
+                            </h4>
+                        </div>
+                        <ul class="list-group list-group-flush text-center">
+                            {% for bank, money in user.banks.items %}
+                                <li class="list-group-item">
+                                    {{bank}}: {{money}}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p>{% lorem %}</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Opardo {% now 'Y' %}</p>
+        </div>
+    </footer>
+
+
+{% endblock %}
+
+

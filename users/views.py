@@ -1,11 +1,21 @@
 from django.shortcuts import get_object_or_404, render
 
-from users.models import Investor
+from users.models import Investor, Bank
 
 
 def index(request):
-    latest_users_list = Investor.objects.order_by('-name')[:5]
-    context = {'latest_users_list': latest_users_list}
+    latest_users_list = Investor.objects.order_by('name')[:4]
+    banks_list = Bank.objects.all()
+
+    examples = []
+
+    for user in latest_users_list:
+        information = {}
+        information['name'] = user.name
+        information['banks'] = user.investment()
+        examples.append(information)
+
+    context = {'examples': examples, 'banks_list': banks_list}
     return render(request, 'users/index.html', context)
 
 
