@@ -4,7 +4,7 @@ from users.models import Investor, Bank
 
 
 def index(request):
-    latest_users_list = Investor.objects.order_by('name')[:4]
+    latest_users_list = Investor.objects.order_by('-register_date')[:4]
     banks_list = Bank.objects.all()
 
     examples = []

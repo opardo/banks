@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from numpy import eye, ones, vstack, array, around
 from cvxopt import matrix, solvers
@@ -21,12 +22,13 @@ class Investor(models.Model):
     name = models.CharField(max_length=200)
     money = models.IntegerField(default=0)
     banks = models.ManyToManyField(Bank)
+    register_date = models.DateTimeField(default=timezone.now)
 
     def __unicode__(self):
         return self.name
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('-register_date',)
 
     def __generate_c(self):
 
