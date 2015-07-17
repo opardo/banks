@@ -1,6 +1,6 @@
 from django.db import models
 
-from numpy import eye, ones, vstack
+from numpy import eye, ones, vstack, array, around
 from cvxopt import matrix, solvers
 
 
@@ -28,7 +28,7 @@ class Investor(models.Model):
     class Meta:
         ordering = ('name',)
 
-    def generate_c(self):
+    def __generate_c(self):
 
         c = []
         for bank in self.banks.all():
@@ -36,14 +36,14 @@ class Investor(models.Model):
         c = matrix(c)
         return c
 
-    def generate_A(self):
+    def __generate_A(self):
         m = len(self.banks.all())
         B = vstack((ones((1, m)), eye(m)))
         A = vstack((B, -1*eye(m)))
         A = matrix(A)
         return A
 
-    def generate_b(self):
+    def __generate_b(self):
 
         b = [float(self.money)]
         for bank in self.banks.all():
@@ -53,10 +53,37 @@ class Investor(models.Model):
         b = matrix(b)
         return b
 
-    def solutions(self):
+    def solve(self):
 
-        sol = solvers.lp(self.generate_c(), self.generate_A(), self.generate_b())
-        return sol
+        sol = solvers.lp(self.__generate_c(), self.__generate_A(), self.__generate_b())
+        vector = array(sol['x'])
+        vector = around(vector, decimals=0)
+
+        return vector
+
+    def investment(self):
+
+        vector = self.solve()
+        i = 0
+        bankslist = []
+        solution = {}
+        for bank in self.banks.all():
+            bankslist.append(bank.name)
+        for bank in Bank.objects.all():
+            if bank.name in bankslist:
+                solution["%s" % bank.name] = "$%.2f" % vector[i]
+                i = i+1
+            else:
+                solution["%s" % bank.name] = "$0.00"
+
+        return solution
+
+
+
+
+
+
+
 
 
 
