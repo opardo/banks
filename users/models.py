@@ -53,7 +53,7 @@ class Investor(models.Model):
         b = matrix(b)
         return b
 
-    def solve(self):
+    def __solve(self):
 
         sol = solvers.lp(self.__generate_c(), self.__generate_A(), self.__generate_b())
         vector = array(sol['x'])
@@ -63,7 +63,7 @@ class Investor(models.Model):
 
     def investment(self):
 
-        vector = self.solve()
+        vector = self.__solve()
         i = 0
         bankslist = []
         solution = {}

@@ -1,7 +1,8 @@
-from django.conf.urls import url
+from django.conf.urls import patterns, url
 
-from . import views
+from users import views
 
-urlpatterns = [
+urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
-]
+    url(r'^(?P<question_id>\d+)/$', views.detail, name='detail'),
+)
