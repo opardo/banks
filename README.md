@@ -6,7 +6,7 @@ Carlos Omar Pardo Gomez (omarpardog@gmail.com)
 
 ## Overview
 
-Web application made using Django. Optimizes the ROI of each investor, given the interest rate and the minimum and maximum investments for a group of banks.
+Web application made using Django. It optimizes the ROI of the investors, given the interest rate and the minimum and maximum investments for a group of banks.
 
 ### User Page
 
