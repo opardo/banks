@@ -2,7 +2,7 @@
 
 ## Author
 
-Carlos Omar Pardo Gomez (omarpardog@gmail.com)
+Carlos Omar Pardo Gomez (cop2108@columbia.edu)
 
 ## Overview
 
